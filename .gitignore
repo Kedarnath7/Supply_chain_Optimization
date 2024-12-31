@@ -1,3 +1,7 @@
+#ignore models
+/artifacts/models/*.pkl
+/artifacts/*.pkl
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
