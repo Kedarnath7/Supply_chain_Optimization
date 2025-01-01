@@ -65,7 +65,3 @@ def preprocess_and_predict(input_csv_path, output_csv_path):
 
     output_df.to_csv(output_csv_path, index=False)
 
-if __name__ == "__main__":
-    input_csv_path = r"C:\Users\kedar\Downloads\sample_input.csv"
-    output_csv_path = r"K:\ML_Project\Supply_chain_optimization\artifacts\output_file.csv"
-    preprocess_and_predict(input_csv_path, output_csv_path)
