@@ -31,9 +31,14 @@ def predict():
 
 @app.route('/visualize')
 def visualize():
+    input_csv_path = os.path.join("temp", "uploaded_input.csv")
+    output_csv_path = os.path.join("temp", "output_predictions.csv")
 
-    input_df = pd.read_csv(r'K:\ML_Project\Supply_chain_optimization\temp\uploaded_input.csv') 
-    output_df = pd.read_csv(r'K:\ML_Project\Supply_chain_optimization\temp\output_predictions.csv') 
+    if not os.path.exists(input_csv_path) or not os.path.exists(output_csv_path):
+        return render_template('visualize.html', message="Required files are missing! Please upload a file first.")
+
+    input_df = pd.read_csv(input_csv_path)
+    output_df = pd.read_csv(output_csv_path)
 
     if 'Late_Delivery_Risk' not in output_df.columns or 'Order_Profit' not in output_df.columns:
         return render_template('visualize.html', message="Required columns are missing in output dataset!")
@@ -52,9 +57,7 @@ def visualize():
 
     late_deliveries = output_df[output_df['Late_Delivery_Risk'] == 'Late Delivery']
     late_deliveries = late_deliveries[['Order_Id']]
-
     late_deliveries = pd.merge(late_deliveries, input_df[['Order_Id', 'Customer_Country', 'Customer_City']], on='Order_Id', how='inner')
-
     late_deliveries = late_deliveries.drop_duplicates()
 
     if late_deliveries.empty:
@@ -70,4 +73,4 @@ def visualize():
     )
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
